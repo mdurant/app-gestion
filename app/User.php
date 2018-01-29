@@ -2,12 +2,17 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use OwenIt\Auditing\Contracts\Auditable;
+use OwenIt\Auditing\Contracts\UserResolver;
+use Auth;
 
-class User extends Authenticatable
+
+
+class User extends Authenticatable implements Auditable, UserResolver
 {
-    use Notifiable;
+    use Notifiable, Auditable;
 
     /**
      * The attributes that are mass assignable.
@@ -26,4 +31,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public static function resolveId()
+    {
+      return Auth::check() ? Auth::user()->getAuthIdentifier() : null;
+    }
 }
