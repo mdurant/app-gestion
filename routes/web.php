@@ -20,3 +20,7 @@ Route::get('/', function () {
     Route::get('/admin/prodcuts/create', 'ProductController@create'); // crear
     Route::get('/admin/prodcuts/', 'ProductController@store'); // RegistrarPermite Guardar (Store = save)
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
