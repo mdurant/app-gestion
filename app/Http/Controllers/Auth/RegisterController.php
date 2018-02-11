@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
+use Illuminate\Http\Request as Req;
+
 class RegisterController extends Controller
 {
     /*
@@ -20,7 +22,7 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use RegistersUsers;    //Podemos sobreescribir
 
     /**
      * Where to redirect users after registration.
@@ -49,8 +51,11 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'nullable|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'phone' => 'required',
+            'address' => 'required',
+            'username' => 'required|unique:users'
         ]);
     }
 
@@ -64,8 +69,21 @@ class RegisterController extends Controller
     {
         return User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'email' => $data['email'] ?: '',
             'password' => bcrypt($data['password']),
+            'phone' => $data['phone'],
+            'address' => $data['address'],
+            'username' => $data['username']
         ]);
+    }
+
+    public function showRegistrationForm(Req $request)  //
+    {
+        $name = $request->input('name');
+        $username = $request->input('username');
+        $phone = $request->input('phone');
+        $address = $request->input('address');
+        $email = $request->input('email');
+        return view('auth.register')->with(compact('name','email'));  // with, inyectar los valores a la vista
     }
 }

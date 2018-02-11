@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Product;
+
 use Illuminate\Http\Request;
+use Datatables;
+use App\Product;
+
 
 class ProductController extends Controller
 {
@@ -14,7 +17,10 @@ class ProductController extends Controller
      */
     public function index() // listado
     {
-        return view(admin.products.index);
+        $products = Product::all();
+        //return view('products.index')->with(compact('products'));
+        return Datatables::of(Product::query())->make(true);
+
     }
 
     /**
@@ -24,7 +30,7 @@ class ProductController extends Controller
      */
     public function create()  // formulario registro
     {
-        return view(admin.products.create);
+        return view(products.create);
     }
 
     /**
@@ -47,6 +53,7 @@ class ProductController extends Controller
     public function show(Product $product)  // Mostrar Registro
     {
         //
+        //$products = Products::where()
     }
 
     /**

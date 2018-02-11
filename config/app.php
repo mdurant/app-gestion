@@ -164,6 +164,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         OwenIt\Auditing\AuditingServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
         
 
         /*
